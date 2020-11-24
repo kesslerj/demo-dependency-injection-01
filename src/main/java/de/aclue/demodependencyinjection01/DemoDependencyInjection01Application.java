@@ -2,9 +2,9 @@ package de.aclue.demodependencyinjection01;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import de.aclue.demodependencyinjection01.model.Order;
-import de.aclue.demodependencyinjection01.service.CustomerService;
 import de.aclue.demodependencyinjection01.service.NewsletterService;
 import de.aclue.demodependencyinjection01.service.OrderService;
 
@@ -12,15 +12,14 @@ import de.aclue.demodependencyinjection01.service.OrderService;
 public class DemoDependencyInjection01Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoDependencyInjection01Application.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(DemoDependencyInjection01Application.class, args);
 		
-		CustomerService customerService = new CustomerService();
-		OrderService orderService = new OrderService(customerService);
+		OrderService orderService = context.getBean(OrderService.class);
 		long customerId = 123l;
-		Order order = orderService.createOrder("3 Bananen", customerId);
+		Order order = orderService.createOrder("3 Bananen", 123L);
 		System.out.println(order);
 		
-		NewsletterService newsletterService = new NewsletterService(customerService);
+		NewsletterService newsletterService = context.getBean(NewsletterService.class);
 		newsletterService.sendNewsletter(customerId);
 	}
 
