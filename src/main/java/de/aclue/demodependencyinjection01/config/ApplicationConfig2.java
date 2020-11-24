@@ -7,17 +7,21 @@ import de.aclue.demodependencyinjection01.service.CustomerService;
 import de.aclue.demodependencyinjection01.service.NewsletterService;
 import de.aclue.demodependencyinjection01.service.OrderService;
 
-//@Configuration
-public class ApplicationConfig {
+/*
+ * Alternative ApplicationConfig, using "kind of autowiring" instead of calling other methods in the config.
+ * 
+ */
+@Configuration
+public class ApplicationConfig2 {
 
 	@Bean
-	OrderService orderService() {
-		return new OrderService(customerService());
+	OrderService orderService(CustomerService customerService) {
+		return new OrderService(customerService);
 	}
 
 	@Bean
-	NewsletterService newsletterService() {
-		return new NewsletterService(customerService());
+	NewsletterService newsletterService(CustomerService customerService) {
+		return new NewsletterService(customerService);
 	}
 
 	@Bean
